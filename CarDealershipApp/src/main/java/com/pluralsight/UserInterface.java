@@ -32,7 +32,6 @@ public class UserInterface
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealershipFileManager.saveDealership(dealership);
     }
-
     private void updateContract(Contract contract)
     {
         ContractFileManager contractFileManager = new ContractFileManager();
@@ -41,7 +40,8 @@ public class UserInterface
 
     public void findPriceRange()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the minimum price: ");
             double min = scanner.nextDouble();
 
@@ -51,7 +51,9 @@ public class UserInterface
 
             List<Vehicle> vehicles = dealership.getVehiclesPrice(min, max);
             displayVehicles(vehicles);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
@@ -59,7 +61,8 @@ public class UserInterface
 
     public void findMakeModel()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the MAKE of the car you're searching for: ");
             String make = scanner.nextLine();
 
@@ -68,14 +71,17 @@ public class UserInterface
 
             List<Vehicle> vehicleMakeModel = dealership.getVehiclesMakeModel(make, model);
             displayVehicles(vehicleMakeModel);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Invalid entry. Please try again.");
         }
     }
 
     public void findYearRange()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the minimum year: ");
             int min = scanner.nextInt();
 
@@ -85,7 +91,9 @@ public class UserInterface
 
             List<Vehicle> vehicleYear = dealership.getVehiclesYear(min, max);
             displayVehicles(vehicleYear);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
@@ -93,13 +101,16 @@ public class UserInterface
 
     public void findVehicleColor()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the desired color: ");
             String color = scanner.nextLine();
 
             List<Vehicle> vehicleColor = dealership.getVehiclesColor(color);
             displayVehicles(vehicleColor);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Invalid entry. Please try again.");
         }
 
@@ -107,7 +118,8 @@ public class UserInterface
 
     public void findMileRange()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the minimum mileage: ");
             int min = scanner.nextInt();
 
@@ -117,7 +129,9 @@ public class UserInterface
 
             List<Vehicle> vehicleMileage = dealership.getVehiclesMileage(min, max);
             displayVehicles(vehicleMileage);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
 
@@ -126,13 +140,16 @@ public class UserInterface
 
     public void findVehicleType()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the vehicle type: ");
             String type = scanner.nextLine();
 
             List<Vehicle> vehicleType = dealership.getVehiclesType(type);
             displayVehicles(vehicleType);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Invalid entry. Please try again.");
         }
 
@@ -141,7 +158,8 @@ public class UserInterface
 
     public void addVehicle()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the Vehicle VIN: ");
             int vin = scanner.nextInt();
             scanner.nextLine();
@@ -176,7 +194,9 @@ public class UserInterface
             System.out.println("New vehicle successfully added!");
 
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
@@ -186,7 +206,8 @@ public class UserInterface
 
     public void removeVehicle()
     {
-        try {
+        try
+        {
             System.out.println("Please enter the Vehicle VIN: ");
             int vin = scanner.nextInt();
             scanner.nextLine();
@@ -219,7 +240,8 @@ public class UserInterface
             dealership.removeVehicle(vehicle);
 
             System.out.println("Vehicle has been successfully removed.");
-        } catch (Exception exception)
+        }
+        catch (Exception exception)
         {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
@@ -233,81 +255,80 @@ public class UserInterface
 
     private void displayVehicles(List<Vehicle> listOfVehicles)
     {
-        for (int i = 0; i < listOfVehicles.size(); i++) {
+        for (int i = 0; i < listOfVehicles.size(); i++)
+        {
             System.out.println(listOfVehicles.get(i));
         }
     }
 
     public void buyOrLeaseReq()
     {
-        try
+        System.out.println("What would you like to do?");
+        System.out.println();
+        System.out.println("[B] - Buy a vehicle");
+        System.out.println("[L] - Lease a vehicle");
+
+        String buyOrLeaseOptions = input.nextLine();
+        while(!buyOrLeaseOptions.equalsIgnoreCase("B")||!buyOrLeaseOptions.equalsIgnoreCase("l"))
         {
-            System.out.println("What would you like to do?");
-            System.out.println();
-            System.out.println("[B] - Buy a vehicle");
-            System.out.println("[L] - Lease a vehicle");
-            String buyOrLeaseOptions = input.nextLine();
-
-            while (!buyOrLeaseOptions.equalsIgnoreCase("B") || !buyOrLeaseOptions.equalsIgnoreCase("l")) {
-                if (buyOrLeaseOptions.equalsIgnoreCase("b"))
+            if (buyOrLeaseOptions.equalsIgnoreCase("b"))
+            {
+                findAllVehicle();
+                System.out.println("Please enter the date:");
+                String date = input.nextLine();
+                System.out.println("Enter your name:");
+                String name = input.nextLine();
+                System.out.println("Enter your email address:");
+                String address = input.nextLine();
+                System.out.println("Would you like to Finance the vehicle? ");
+                System.out.println("Enter 'Y' for yes OR 'N' for NO: ");
+                boolean finance = input.nextLine().equalsIgnoreCase("Y");
+                System.out.println("Enter the VIN:");
+                int vin = Integer.parseInt(input.nextLine());
+                Vehicle vehicle = null;
+                for (Vehicle vehicle1 : dealership.getAllVehicles())
                 {
-                    findAllVehicle();
-                    System.out.println("Please enter the date:");
-                    String date = input.nextLine();
-                    System.out.println("Enter your name:");
-                    String name = input.nextLine();
-                    System.out.println("Enter your email address:");
-                    String address = input.nextLine();
-                    System.out.println("Would you like to Finance the vehicle? ");
-                    System.out.println("Enter 'Y' for yes OR 'N' for NO: ");
-                    boolean finance = input.nextLine().equalsIgnoreCase("Y");
-                    System.out.println("Enter the VIN:");
-                    int vin = Integer.parseInt(input.nextLine());
-                    Vehicle vehicle = null;
-                    for (Vehicle vehicle1 : dealership.getAllVehicles()) {
-                        if (vehicle1.getVin() == vin) {
-                            vehicle = vehicle1;
-                        }
+                    if (vehicle1.getVin() == vin)
+                    {
+                        vehicle = vehicle1;
                     }
-                    dealership.removeVehicle(vehicle);
-                    SalesContract salesContract = new SalesContract(date, name, address, vehicle, finance);
-                    updateContract(salesContract);
-                    updateDealership();
-                    System.out.println("This Vehicle has been successfully bought:" + vehicle + ".");
-                    break;
-                } else if (buyOrLeaseOptions.equalsIgnoreCase("l")) {
-                    findAllVehicle();
-                    System.out.println("Enter the date of the contract:");
-                    String date = input.nextLine();
-                    System.out.println("Enter your name:");
-                    String name = input.nextLine();
-                    System.out.println("Enter your email address:");
-                    String address = input.nextLine();
-                    System.out.println("Enter the vin of the vehicle you want to buy:");
-                    int vin = Integer.parseInt(input.next());
-                    Vehicle vehicle = null;
-                    for (Vehicle vehicle1 : dealership.getAllVehicles()) {
-                        if (vehicle1.getVin() == vin) {
-                            vehicle = vehicle1;
-
-                        }
-                    }
-                    dealership.removeVehicle(vehicle);
-                    LeaseContract salesContract = new LeaseContract(date, name, address, vehicle);
-                    updateContract(salesContract);
-                    updateDealership();
-                    System.out.println("This Vehicle has been successfully leased:" + vehicle + ".");
-                    break;
                 }
+                dealership.removeVehicle(vehicle);
+                SalesContract salesContract = new SalesContract(date, name, address, vehicle, finance);
+                updateContract(salesContract);
+                updateDealership();
+                System.out.println("This Vehicle has been successfully bought:" + vehicle + ".");
+                break;
+            }
+            else if (buyOrLeaseOptions.equalsIgnoreCase("l"))
+            {
+                findAllVehicle();
+                System.out.println("Enter the date of the contract:");
+                String date = input.nextLine();
+                System.out.println("Enter your name:");
+                String name = input.nextLine();
+                System.out.println("Enter your email address:");
+                String address = input.nextLine();
+                System.out.println("Enter the vin of the vehicle you want to buy:");
+                int vin = Integer.parseInt(input.next());
+                Vehicle vehicle = null;
+                for (Vehicle vehicle1 : dealership.getAllVehicles())
+                {
+                    if (vehicle1.getVin() == vin)
+                    {
+                        vehicle = vehicle1;
+
+                    }
+                }
+                dealership.removeVehicle(vehicle);
+                LeaseContract salesContract = new LeaseContract(date, name, address, vehicle);
+                updateContract(salesContract);
+                updateDealership();
+                System.out.println("This Vehicle has been successfully leased:" + vehicle + ".");
+                break;
             }
         }
-        catch (Exception e)
-        {
-            System.out.println("Invalid entry. Please try again.");
-            System.out.println(e);
-        }
     }
-
 
     public void displayMenu()
     {
