@@ -1,13 +1,14 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class ContractFileManager
 {
 
-    public Dealership getContract()
+    public ArrayList<Contract> loadContract()
     {
-
+         ArrayList<Contract> contractList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader( "Contracts.csv")))
         {
@@ -16,29 +17,59 @@ public class ContractFileManager
             while ((line = reader.readLine()) != null)
             {
                 String[] tokens = line.split("\\|");
-                if(lineCounter<=1)
+                if(tokens[0].equalsIgnoreCase("Sales"))
                 {
-                  String date
-                  String customerName
-                  String customerEmail
-
-                }
-                else
-                {
-                    int vin = Integer.parseInt(tokens[0]);
-                    int year = Integer.parseInt(tokens[1]);
-                    String make = tokens[2];
-                    String model = tokens[3];
-                    String vehicleType = tokens[4];
-                    String color = tokens[5];
-                    int odometer = Integer.parseInt(tokens[6]);
-                    double price = Double.parseDouble(tokens[7]);
+                    String date = tokens[1];
+                    String customerName = tokens[2];
+                    String customerEmail = tokens[3];
+                    int vin = Integer.parseInt(tokens[4]);
+                    int year = Integer.parseInt(tokens[5]);
+                    String make = tokens[6];
+                    String model = tokens[7];
+                    String vehicleType = tokens[8];
+                    String color = tokens[9];
+                    int odometer = Integer.parseInt(tokens[10]);
+                    double price = Double.parseDouble(tokens[11]);
+                    double salesTaxAmount = Double.parseDouble(tokens[12]);
+                    double recordingFee = Double.parseDouble(tokens[13]);
+                    double processingFee = Double.parseDouble(tokens[14]);
+                    double totalCost = Double.parseDouble(tokens[15]);
+                    boolean finance = Boolean.parseBoolean(tokens[16]);
+                    double monthlyPayment = Double.parseDouble(tokens[17]);
 
                     Vehicle vehicle = new Vehicle(vin,year, make, model, vehicleType, color, odometer, price);
-                    dealership.addVehicle(vehicle);
-
+                    SalesContract salesContract = new SalesContract(date,customerName,customerEmail,vehicle,finance);
+                    contractList.add(salesContract);
                 }
-                lineCounter++;
+
+                else if (tokens[0].equalsIgnoreCase("Lease"))
+                {
+                    String date = tokens[1];
+                    String customerName = tokens[2];
+                    String customerEmail = tokens[3];
+                    int vin = Integer.parseInt(tokens[4]);
+                    int year = Integer.parseInt(tokens[5]);
+                    String make = tokens[6];
+                    String model = tokens[7];
+                    String vehicleType = tokens[8];
+                    String color = tokens[9];
+                    int odometer = Integer.parseInt(tokens[10]);
+                    double price = Double.parseDouble(tokens[11]);
+                    double expectedEndingValue = Double.parseDouble(tokens[12]);
+                    double leaseFee = Double.parseDouble(tokens[13]);
+                    double totalCost = Double.parseDouble(tokens[14]);
+                    double monthlyPayment = Double.parseDouble(tokens[15]);
+
+                    Vehicle vehicle = new Vehicle(vin,year, make, model, vehicleType, color, odometer, price);
+                    LeaseContract leaseContract = new LeaseContract(date,customerName,customerEmail,vehicle);
+                    contractList.add(leaseContract);
+                }
+
+                else
+                {
+                    System.out.println("Invalid entry. Please try again.");
+                }
+
             }
 
         }
@@ -46,44 +77,40 @@ public class ContractFileManager
         {
             System.err.print(e);
         }
-
-        return dealership;
+        return contractList;
     }
 
     public void saveContract(Contract contract)
     {
-        String dealershipName= String.format("%1s|%1s|%1s", contract.getName(),contract.getAddress(),contract.getPhone());
-        try
+        try( BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("Contracts.csv",true)))
         {
-            BufferedWriter nameWriter = new BufferedWriter(new FileWriter("inventory.csv"));
-            nameWriter.write(dealershipName+"\n");
-            nameWriter.close();
-            try
+            if(contract instanceof SalesContract)
             {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("inventory.csv",true));
-                for(Vehicle vehicle:contract.getAllVehicles())
+                try
                 {
-                    String vehicleFormat = vehicle.getVin()+"|"+vehicle.getYear()+"|"+vehicle.getMake()+"|"+vehicle.getModel()+"|"+vehicle.getVehicleType()+"|"+vehicle.getColor()+"|"+vehicle.getOdometer()+"|"+vehicle.getPrice()+"\n";
-                    writer.write(vehicleFormat);
+                    bufferedWriter.write(contract.toString());
                 }
-                writer.close();
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
             }
-            catch (IOException e)
+            if(contract instanceof LeaseContract)
             {
-                System.out.println(e);
+                try
+                {
+                    bufferedWriter.write(contract.toString());
+                }
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+
             }
-
         }
-
-        catch(IOException e)
+        catch(Exception e)
         {
-            System.out.println(e);
+            System.out.println("Invalid entry. Please try again.");
         }
     }
 }
-
-// public ArrayList<Contract> loadContract()
-//{
-// ArrayList<Contract> contractList = new ArrayList<>();
-// ---- Buffered reader?
-//}

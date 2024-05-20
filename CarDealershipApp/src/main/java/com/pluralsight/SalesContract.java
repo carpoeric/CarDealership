@@ -1,16 +1,18 @@
 package com.pluralsight;
 
-public class SalesContract extends Contract {
-    private double salesTax = .05;
-    private double recordingFee = 100;
+public class SalesContract extends Contract
+{
+    private double salesTax;
+    private double recordingFee;
     private double processingFee;
     private boolean finance;
 
-    public SalesContract(String date, String customerName, String customerEmail, String vehicleSold, double salesTax, double recordingFee, double processingFee, boolean finance) {
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean finance)
+    {
         super(date, customerName, customerEmail, vehicleSold);
-        this.salesTax = salesTax;
-        this.recordingFee = recordingFee;
-        this.processingFee = processingFee;
+        this.salesTax = .05*this.getVehicleSold().getPrice();
+        this.recordingFee = 100;
+        this.processingFee = this.getVehicleSold().getPrice()<10000 ? 295 :495;
         this.finance = finance;
     }
 

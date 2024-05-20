@@ -1,12 +1,14 @@
 package com.pluralsight;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface
 {
-    Dealership dealership;
+    private Dealership dealership;
     Scanner scanner = new Scanner(System.in);
+    Scanner input;
 
     public UserInterface()
     {
@@ -23,6 +25,17 @@ public class UserInterface
     {
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealership = dealershipFileManager.getDealership();
+    }
+
+    private void updateDealership()
+    {
+        DealershipFileManager dealershipFileManager = new DealershipFileManager();
+        dealershipFileManager.saveDealership(dealership);
+    }
+    private void updateContract(Contract contract)
+    {
+        ContractFileManager contractFileManager = new ContractFileManager();
+        contractFileManager.saveContract(contract);
     }
 
     public void findPriceRange()
@@ -248,6 +261,75 @@ public class UserInterface
         }
     }
 
+    public void buyOrLeaseReq()
+    {
+        System.out.println("What would you like to do?");
+        System.out.println();
+        System.out.println("[B] - Buy a vehicle");
+        System.out.println("[L] - Lease a vehicle");
+
+        String buyOrLeaseOptions = input.nextLine();
+        while(!buyOrLeaseOptions.equalsIgnoreCase("B")||!buyOrLeaseOptions.equalsIgnoreCase("l"))
+        {
+            if (buyOrLeaseOptions.equalsIgnoreCase("b"))
+            {
+                findAllVehicle();
+                System.out.println("Please enter the date:");
+                String date = input.nextLine();
+                System.out.println("Enter your name:");
+                String name = input.nextLine();
+                System.out.println("Enter your email address:");
+                String address = input.nextLine();
+                System.out.println("Would you like to Finance the vehicle? ");
+                System.out.println("Enter 'Y' for yes OR 'N' for NO: ");
+                boolean finance = input.nextLine().equalsIgnoreCase("Y");
+                System.out.println("Enter the VIN:");
+                int vin = Integer.parseInt(input.nextLine());
+                Vehicle vehicle = null;
+                for (Vehicle vehicle1 : dealership.getAllVehicles())
+                {
+                    if (vehicle1.getVin() == vin)
+                    {
+                        vehicle = vehicle1;
+                    }
+                }
+                dealership.removeVehicle(vehicle);
+                SalesContract salesContract = new SalesContract(date, name, address, vehicle, finance);
+                updateContract(salesContract);
+                updateDealership();
+                System.out.println("This Vehicle has been successfully bought:" + vehicle + ".");
+                break;
+            }
+            else if (buyOrLeaseOptions.equalsIgnoreCase("l"))
+            {
+                findAllVehicle();
+                System.out.println("Enter the date of the contract:");
+                String date = input.nextLine();
+                System.out.println("Enter your name:");
+                String name = input.nextLine();
+                System.out.println("Enter your email address:");
+                String address = input.nextLine();
+                System.out.println("Enter the vin of the vehicle you want to buy:");
+                int vin = Integer.parseInt(input.next());
+                Vehicle vehicle = null;
+                for (Vehicle vehicle1 : dealership.getAllVehicles())
+                {
+                    if (vehicle1.getVin() == vin)
+                    {
+                        vehicle = vehicle1;
+
+                    }
+                }
+                dealership.removeVehicle(vehicle);
+                LeaseContract salesContract = new LeaseContract(date, name, address, vehicle);
+                updateContract(salesContract);
+                updateDealership();
+                System.out.println("This Vehicle has been successfully leased:" + vehicle + ".");
+                break;
+            }
+        }
+    }
+
     public void displayMenu()
     {
 
@@ -258,15 +340,16 @@ public class UserInterface
             System.out.println(Colors.BRIGHT_WHITE + """
                    Main Menu:
                                      
+                   [0] - Buy / Lease a vehicle
                    [1] - Find Vehicles within a price range
                    [2] - Find vehicles by make / model
                    [3] - Find vehicles by year range
                    [4] - Find vehicles by color
                    [5] - Find vehicles by mileage range
-                   [6] - Find vehicles by type (car, truck, SUV, van)
+                   [6] - Find vehicles by type (car, truck, SUV, van, etc.)
                    [7] - List ALL vehicles
                    [8] - Add a vehicle
-                   [9] - Remove a vehicle
+                   [9] - Remove a vehicle                
                    [99] - Quit
                    """ + Colors.TEXT_RESET);
             System.out.print("Please enter the number for your desired action here: ");
@@ -275,6 +358,9 @@ public class UserInterface
 
             switch (input)
             {
+                case "0":
+                    buyOrLeaseReq();
+                    break;
                 case "1":
                     findPriceRange();
                     break;
