@@ -35,11 +35,17 @@ public class LeaseContract extends Contract
     }
     @Override
     public double getTotalPrice() {
-        return 0;
+        return this.expectedEndingValue + this.leaseFee;
     }
 
     @Override
     public double getMonthlyPayment() {
-        return 0;
+        double principal = getVehicleSold().getPrice() - this.expectedEndingValue;
+        double monthlyInterestRate = 0.04 / 12; // Annual rate divided by 12 months
+        int totalPayments = 36; // 3 years * 12 months
+        double monthlyPayment = (monthlyInterestRate * principal) /
+                (1 - Math.pow(1 + monthlyInterestRate, -totalPayments));
+        return monthlyPayment;
     }
+
 }
