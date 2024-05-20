@@ -55,5 +55,5 @@ public class SalesContract extends Contract {
     public double getMonthlyPayment() {
         return 0;
     }
-    
+
 }
