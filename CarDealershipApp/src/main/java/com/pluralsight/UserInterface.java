@@ -389,8 +389,19 @@ public class UserInterface
                     removeVehicle();
                     break;
                 case "99":
-                    System.out.println("Thanks for trying the app!");
+                    System.out.println(Colors.RED + "Application shutting down" + Colors.TEXT_RESET);
+                    for (int i = 0; i < 20; i++) {
+                        int repeat = i % 5;
+                        System.out.print(".".repeat(repeat) + "\r");
+                        try {
+                            Thread.sleep(150);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    System.out.println("See you next time.");
                     running = false;
+                    break;
                 default:
                     break;
             }
@@ -399,10 +410,8 @@ public class UserInterface
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "UserInterface{" +
                 "dealership=" + dealership +
                 '}';
     }
-}
