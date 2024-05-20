@@ -10,3 +10,9 @@ Screenshots below of each class.
 ![alt text](<Sales contract screenshot.jpg>)
 ![alt text](<Lease Screenshot.jpg>)
 ![alt text](<contract csv reader.jpg>)
+
+##5-20-24
+# Interesting Code:
+![QuitPage](<quitpage.png>)
+
+We were used to implementing colors, but now we wanted to try mini graphics as well. 
