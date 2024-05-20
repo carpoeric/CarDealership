@@ -1,12 +1,19 @@
 ## 5-16-24
 Made the board for to do list along with planning out what classes are needed in the project(Check pcitures below).
-![alt text](<White board pic.jpg>)
-![alt text](Todolist.jpg)
+![Whiteboard](<White board pic.jpg>)
+![To-Do List](Todolist.jpg)
 
 ## 5-19-24
 Made the three classes(contract,sales contract and lease contract). We setup the getters and setters along with the constructor. We setup the contract filereader ,but it dosen't read the file yet and is a work in progress.
 Screenshots below of each class.
-![alt text](<contract screenshot.jpg>)
-![alt text](<Sales contract screenshot.jpg>)
-![alt text](<Lease Screenshot.jpg>)
-![alt text](<contract csv reader.jpg>)
+![Contract](<contract screenshot.jpg>)
+![Sales](<Sales contract screenshot.jpg>)
+![Lease](<Lease Screenshot.jpg>)
+![CSV Reader](<contract csv reader.jpg>)
+
+## 5-20-24
+### Interesting Code:
+![QuitPage](<quitpage.png>)
+
+We were used to implementing colors, but now we wanted to try mini graphics as well. 
+ 
