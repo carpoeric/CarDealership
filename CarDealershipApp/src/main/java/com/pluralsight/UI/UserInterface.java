@@ -1,47 +1,44 @@
-package com.pluralsight;
+package com.pluralsight.UI;
 
-import java.sql.SQLOutput;
+import com.pluralsight.*;
+import com.pluralsight.FileReaders.ContractFileManager;
+import com.pluralsight.FileReaders.DealershipFileManager;
+import com.pluralsight.Models.*;
+
 import java.util.List;
 import java.util.Scanner;
 
-public class UserInterface
-{
+public class UserInterface {
     private Dealership dealership;
     Scanner scanner = new Scanner(System.in);
     Scanner input;
 
-    public UserInterface()
-    {
+    public UserInterface() {
 
     }
 
-    public void display()
-    {
+    public void display() {
         init();
         displayMenu();
     }
 
-    private void init()
-    {
+    private void init() {
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealership = dealershipFileManager.getDealership();
     }
 
-    private void updateDealership()
-    {
+    private void updateDealership() {
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealershipFileManager.saveDealership(dealership);
     }
-    private void updateContract(Contract contract)
-    {
+
+    private void updateContract(Contract contract) {
         ContractFileManager contractFileManager = new ContractFileManager();
         contractFileManager.saveContract(contract);
     }
 
-    public void findPriceRange()
-    {
-        try
-        {
+    public void findPriceRange() {
+        try {
             System.out.println("Please enter the minimum price: ");
             double min = scanner.nextDouble();
 
@@ -51,18 +48,14 @@ public class UserInterface
 
             List<Vehicle> vehicles = dealership.getVehiclesPrice(min, max);
             displayVehicles(vehicles);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
     }
 
-    public void findMakeModel()
-    {
-        try
-        {
+    public void findMakeModel() {
+        try {
             System.out.println("Please enter the MAKE of the car you're searching for: ");
             String make = scanner.nextLine();
 
@@ -71,17 +64,13 @@ public class UserInterface
 
             List<Vehicle> vehicleMakeModel = dealership.getVehiclesMakeModel(make, model);
             displayVehicles(vehicleMakeModel);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Invalid entry. Please try again.");
         }
     }
 
-    public void findYearRange()
-    {
-        try
-        {
+    public void findYearRange() {
+        try {
             System.out.println("Please enter the minimum year: ");
             int min = scanner.nextInt();
 
@@ -91,35 +80,27 @@ public class UserInterface
 
             List<Vehicle> vehicleYear = dealership.getVehiclesYear(min, max);
             displayVehicles(vehicleYear);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
     }
 
-    public void findVehicleColor()
-    {
-        try
-        {
+    public void findVehicleColor() {
+        try {
             System.out.println("Please enter the desired color: ");
             String color = scanner.nextLine();
 
             List<Vehicle> vehicleColor = dealership.getVehiclesColor(color);
             displayVehicles(vehicleColor);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Invalid entry. Please try again.");
         }
 
     }
 
-    public void findMileRange()
-    {
-        try
-        {
+    public void findMileRange() {
+        try {
             System.out.println("Please enter the minimum mileage: ");
             int min = scanner.nextInt();
 
@@ -129,37 +110,29 @@ public class UserInterface
 
             List<Vehicle> vehicleMileage = dealership.getVehiclesMileage(min, max);
             displayVehicles(vehicleMileage);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
 
         }
     }
 
-    public void findVehicleType()
-    {
-        try
-        {
+    public void findVehicleType() {
+        try {
             System.out.println("Please enter the vehicle type: ");
             String type = scanner.nextLine();
 
             List<Vehicle> vehicleType = dealership.getVehiclesType(type);
             displayVehicles(vehicleType);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Invalid entry. Please try again.");
         }
 
     }
 
 
-    public void addVehicle()
-    {
-        try
-        {
+    public void addVehicle() {
+        try {
             System.out.println("Please enter the Vehicle VIN: ");
             int vin = scanner.nextInt();
             scanner.nextLine();
@@ -194,9 +167,7 @@ public class UserInterface
             System.out.println("New vehicle successfully added!");
 
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
@@ -204,10 +175,8 @@ public class UserInterface
 
     }
 
-    public void removeVehicle()
-    {
-        try
-        {
+    public void removeVehicle() {
+        try {
             System.out.println("Please enter the Vehicle VIN: ");
             int vin = scanner.nextInt();
             scanner.nextLine();
@@ -240,39 +209,31 @@ public class UserInterface
             dealership.removeVehicle(vehicle);
 
             System.out.println("Vehicle has been successfully removed.");
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             scanner.nextLine();
             System.out.println("Invalid entry. Please try again.");
         }
     }
 
-    public void findAllVehicle()
-    {
+    public void findAllVehicle() {
         displayVehicles(dealership.getAllVehicles());
     }
 
-    private void displayVehicles(List<Vehicle> listOfVehicles)
-    {
-        for (int i = 0; i < listOfVehicles.size(); i++)
-        {
+    private void displayVehicles(List<Vehicle> listOfVehicles) {
+        for (int i = 0; i < listOfVehicles.size(); i++) {
             System.out.println(listOfVehicles.get(i));
         }
     }
 
-    public void buyOrLeaseReq()
-    {
+    public void buyOrLeaseReq() {
         System.out.println("What would you like to do?");
         System.out.println();
         System.out.println("[B] - Buy a vehicle");
         System.out.println("[L] - Lease a vehicle");
 
         String buyOrLeaseOptions = input.nextLine();
-        while(!buyOrLeaseOptions.equalsIgnoreCase("B")||!buyOrLeaseOptions.equalsIgnoreCase("l"))
-        {
-            if (buyOrLeaseOptions.equalsIgnoreCase("b"))
-            {
+        while (!buyOrLeaseOptions.equalsIgnoreCase("B") && !buyOrLeaseOptions.equalsIgnoreCase("l")) {
+            if (buyOrLeaseOptions.equalsIgnoreCase("b")) {
                 findAllVehicle();
                 System.out.println("Please enter the date:");
                 String date = input.nextLine();
@@ -286,10 +247,8 @@ public class UserInterface
                 System.out.println("Enter the VIN:");
                 int vin = Integer.parseInt(input.nextLine());
                 Vehicle vehicle = null;
-                for (Vehicle vehicle1 : dealership.getAllVehicles())
-                {
-                    if (vehicle1.getVin() == vin)
-                    {
+                for (Vehicle vehicle1 : dealership.getAllVehicles()) {
+                    if (vehicle1.getVin() == vin) {
                         vehicle = vehicle1;
                     }
                 }
@@ -299,9 +258,7 @@ public class UserInterface
                 updateDealership();
                 System.out.println("This Vehicle has been successfully bought:" + vehicle + ".");
                 break;
-            }
-            else if (buyOrLeaseOptions.equalsIgnoreCase("l"))
-            {
+            } else if (buyOrLeaseOptions.equalsIgnoreCase("l")) {
                 findAllVehicle();
                 System.out.println("Enter the date of the contract:");
                 String date = input.nextLine();
@@ -312,10 +269,8 @@ public class UserInterface
                 System.out.println("Enter the vin of the vehicle you want to buy:");
                 int vin = Integer.parseInt(input.next());
                 Vehicle vehicle = null;
-                for (Vehicle vehicle1 : dealership.getAllVehicles())
-                {
-                    if (vehicle1.getVin() == vin)
-                    {
+                for (Vehicle vehicle1 : dealership.getAllVehicles()) {
+                    if (vehicle1.getVin() == vin) {
                         vehicle = vehicle1;
 
                     }
@@ -330,34 +285,31 @@ public class UserInterface
         }
     }
 
-    public void displayMenu()
-    {
+    public void displayMenu() {
 
         boolean running = true;
-        while (running)
-        {
+        while (running) {
             System.out.println(Colors.BRIGHT_BLUE + "\n---------Welcome To The Best Dealership!---------\n" + Colors.TEXT_RESET);
             System.out.println(Colors.BRIGHT_WHITE + """
-                   Main Menu:
-                                     
-                   [0] - Buy / Lease a vehicle
-                   [1] - Find Vehicles within a price range
-                   [2] - Find vehicles by make / model
-                   [3] - Find vehicles by year range
-                   [4] - Find vehicles by color
-                   [5] - Find vehicles by mileage range
-                   [6] - Find vehicles by type (car, truck, SUV, van, etc.)
-                   [7] - List ALL vehicles
-                   [8] - Add a vehicle
-                   [9] - Remove a vehicle                
-                   [99] - Quit
-                   """ + Colors.TEXT_RESET);
+                    Main Menu:
+                                      
+                    [0] - Buy / Lease a vehicle
+                    [1] - Find Vehicles within a price range
+                    [2] - Find vehicles by make / model
+                    [3] - Find vehicles by year range
+                    [4] - Find vehicles by color
+                    [5] - Find vehicles by mileage range
+                    [6] - Find vehicles by type (car, truck, SUV, van, etc.)
+                    [7] - List ALL vehicles
+                    [8] - Add a vehicle
+                    [9] - Remove a vehicle                
+                    [99] - Quit
+                    """ + Colors.TEXT_RESET);
             System.out.print("Please enter the number for your desired action here: ");
             String input = scanner.nextLine();
             System.out.println();
 
-            switch (input)
-            {
+            switch (input) {
                 case "0":
                     buyOrLeaseReq();
                     break;
@@ -415,3 +367,4 @@ public class UserInterface
                 "dealership=" + dealership +
                 '}';
     }
+}
