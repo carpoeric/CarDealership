@@ -232,7 +232,7 @@ public class UserInterface {
         System.out.println("[L] - Lease a vehicle");
 
         String buyOrLeaseOptions = input.nextLine();
-        while (!buyOrLeaseOptions.equalsIgnoreCase("B") && !buyOrLeaseOptions.equalsIgnoreCase("l")) {
+        while (!buyOrLeaseOptions.equalsIgnoreCase("B") || !buyOrLeaseOptions.equalsIgnoreCase("l")) {
             if (buyOrLeaseOptions.equalsIgnoreCase("b")) {
                 findAllVehicle();
                 System.out.println("Please enter the date:");

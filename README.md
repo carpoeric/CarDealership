@@ -16,4 +16,7 @@ Screenshots below of each class.
 ![QuitPage](<quitpage.png>)
 
 We were used to implementing colors, but now we wanted to try mini graphics as well. 
- 
+ Organized the classes into folders so they're a bit more organized. Sales contract,contract and Lease contract were finished and added a option for buying a vehicle or leasing.
+
+ current bug or issues: 
+ - When going to buyOrLeaseReq it will pop up with a error saying it's null on user input.
